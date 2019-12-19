@@ -1,12 +1,24 @@
-moto: lib.o moto.o
-        ${CROSS_COMPILE}gcc -o moto lib.o moto.o -L${SYSROOT}/usr/lib -lpthread -ldl
-        ${CROSS_COMPILE}strip moto
-lib.o: lib.c
-        ${CROSS_COMPILE}gcc -c lib.c -Os -Wall -D_GNU_SOURCE -I${SYSROOT}/usr/include
-moto.o: moto.c
-        ${CROSS_COMPILE}gcc -c moto.c -Os -Wall -D_GNU_SOURCE -I${SYSROOT}/usr/include
+NAME=moto
+
+proc=main
+elib=lib
+
+CC=${CROSS_COMPILE}gcc
+STRIP=${CROSS_COMPILE}strip
+RM=rm
+
+CFLAG =-std=gnu99 -O0 -Wall -g -D_GNU_SOURCE -D_REENTERANT
+
+INC=${SYSROOT}/usr/include
+LIB_DIR=${SYSROOT}/usr/lib
+
+$(NAME): $(elib).o $(proc).o
+	$(CC) -o $(NAME) $(elib).o $(proc).o -L$(LIB_DIR) -lpthread -ldl
+	$(STRIP) $(NAME)
+$(elib).o: $(elib).c
+	$(CC) -c $(elib).c $(CFLAG) -I$(INC)
+$(proc).o: $(proc).c
+	$(CC) -c $(proc).c $(CFLAG) -I$(INC)
 clean:
-        rm -f *.o moto
-
-
+	$(RM) -f *.o $(NAME)
 

@@ -10,7 +10,7 @@ A simple application with web interface and linux kernel device driver on board 
 
 ## Package files:
 
-* moto.c		- source code for getting data from any devices
+* main.c	- source code for getting data from any devices
 * lib.c		- library functions source code
 * lib.h		- library functions header
 
